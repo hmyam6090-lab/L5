@@ -824,6 +824,15 @@ function defaults()
   SIZEALL = "sizeall"
   NO = "no"
   HAND = "hand"
+  -- beginShape kinds
+  POINTS = "points"
+  LINES = "lines"
+  TRIANGLES = "triangles"
+  TRIANGLE_FAN = "fan"
+  TRIANGLE_STRIP = "strip"
+  QUADS = "quads"
+  QUAD_STRIP = "quad_strip"
+  TESS = "tess"
 
   -- global user vars - can be read by user but shouldn't be altered by user
   key = "" --default, overriden with key presses detected in love.update(dt)
@@ -893,6 +902,7 @@ function define_env_globals()
   L5_env.pixelsLoaded = false
   -- custom shape drawing 
   L5_env.vertices = {}
+  L5_env.kind = nil
   -- custom texture mesh
   L5_env.currentTexture = nil
   L5_env.useTexture = false
@@ -2301,10 +2311,11 @@ function textureWrap(_mode)
     end
 end
 
-function beginShape()
+function beginShape(_kind)
   -- reset custom shape vertices table
   L5_env.vertices = {}
   L5_env.useTexture = false
+  L5_env.kind = _kind
 end
 
 function vertex(_x, _y, _u, _v)
@@ -2327,6 +2338,118 @@ end
 function endShape(_close)
   -- no vertices, early exit
   if #L5_env.vertices == 0 then return end
+
+  -- draw points
+  if L5_env.kind == POINTS then
+    local r, g, b, a = love.graphics.getColor()
+    love.graphics.setColor(unpack(L5_env.stroke_color))
+    for i = 1 , #L5_env.vertices , 2 do
+      love.graphics.points(L5_env.vertices[i] , L5_env.vertices[i+1])
+    end
+    love.graphics.setColor(r, g, b, a)
+    return
+  end
+
+  -- draw unconnected lines
+  if L5_env.kind == LINES then
+    local r, g, b, a = love.graphics.getColor()
+    love.graphics.setColor(unpack(L5_env.stroke_color))
+    for i = 1, #L5_env.vertices - 2, 4 do
+      love.graphics.line(
+        L5_env.vertices[i], L5_env.vertices[i+1], L5_env.vertices[i+2], L5_env.vertices[i+3]
+      )
+    end
+    love.graphics.setColor(r, g, b, a)
+    return
+  end
+
+  -- draw seperated triangles
+  if L5_env.kind == TRIANGLES then
+    local verts = L5_env.vertices
+    if type(verts[1]) == "number" then
+      local converted = {}
+      for i = 1 , #verts , 2 do
+        converted[#converted+1] = {verts[i] , verts[i+1]}
+      end
+      verts = converted
+    end
+
+    if L5_env.fill_mode == "fill" then
+      local mesh = love.graphics.newMesh(verts, TRIANGLES)
+      love.graphics.draw(mesh)
+    end
+
+    local r, g, b, a = love.graphics.getColor()
+    love.graphics.setColor(unpack(L5_env.stroke_color))
+    for i = 1, #verts, 3 do
+      local v1, v2, v3 = verts[i], verts[i+1], verts[i+2]
+      if(v1 == nil or v2 == nil or v3 == nil) then break end
+      love.graphics.line(v1[1],v1[2], v2[1],v2[2])
+      love.graphics.line(v2[1],v2[2], v3[1],v3[2])
+      love.graphics.line(v3[1],v3[2], v1[1],v1[2])
+    end
+    love.graphics.setColor(r, g, b, a)
+    return
+  end
+
+
+  -- draw triangle strip
+  if L5_env.kind == TRIANGLE_STRIP then
+    local verts = L5_env.vertices
+    if type(verts[1]) == "number" then
+      local converted = {}
+      for i = 1 , #verts , 2 do
+        converted[#converted+1] = {verts[i] , verts[i+1]}
+      end
+      verts = converted
+    end
+
+    if L5_env.fill_mode == "fill" then
+      local mesh = love.graphics.newMesh(verts, TRIANGLE_STRIP)
+      love.graphics.draw(mesh)
+    end
+
+    local r, g, b, a = love.graphics.getColor()
+    love.graphics.setColor(unpack(L5_env.stroke_color))
+    for i = 1, #verts-2, 1 do
+      local v1, v2, v3 = verts[i], verts[i+1], verts[i+2]
+      if(v1 == nil or v2 == nil or v3 == nil) then break end
+      love.graphics.line(v1[1],v1[2], v2[1],v2[2])
+      love.graphics.line(v2[1],v2[2], v3[1],v3[2])
+      love.graphics.line(v3[1],v3[2], v1[1],v1[2])
+    end
+    love.graphics.setColor(r, g, b, a)
+    return
+  end
+
+  -- draw triangles centered around the first vertex
+  if L5_env.kind == TRIANGLE_FAN then
+    local verts = L5_env.vertices
+    if type(verts[1]) == "number" then
+      local converted = {}
+      for i = 1 , #verts , 2 do
+        converted[#converted+1] = {verts[i] , verts[i+1]}
+      end
+      verts = converted
+    end
+
+    if L5_env.fill_mode == "fill" then
+      local mesh = love.graphics.newMesh(verts, TRIANGLE_FAN)
+      love.graphics.draw(mesh)
+    end
+
+    local r, g, b, a = love.graphics.getColor()
+    love.graphics.setColor(unpack(L5_env.stroke_color))
+    for i = 2, #verts-1, 1 do
+      local v1, v2, v3 = verts[1], verts[i], verts[i+1]
+      if(v1 == nil or v2 == nil or v3 == nil) then break end
+      love.graphics.line(v1[1],v1[2], v2[1],v2[2])
+      love.graphics.line(v2[1],v2[2], v3[1],v3[2])
+      love.graphics.line(v3[1],v3[2], v1[1],v1[2])
+    end
+    love.graphics.setColor(r, g, b, a)
+    return
+  end
 
   -- if texture() triangulate fan mesh - convex assumed
   if L5_env.useTexture and L5_env.currentTexture then
