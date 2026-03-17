@@ -144,9 +144,9 @@ function love.load()
 
   -- Clear both buffers initially
   love.graphics.setCanvas(L5_env.backBuffer) 
-  love.graphics.clear(0.5, 0.5, 0.5, 1) -- grey background
+  love.graphics.clear(0.5, 0.5, 0.5, 1) -- gray background
   love.graphics.setCanvas(L5_env.frontBuffer) 
-  love.graphics.clear(0.5, 0.5, 0.5, 1) -- grey background
+  love.graphics.clear(0.5, 0.5, 0.5, 1) -- gray background
   love.graphics.setCanvas()
 
   initShaderDefaults()
@@ -1673,10 +1673,8 @@ function background(_r,_g,_b,_a)
   if type(_r) == "userdata" and _r:type() == "Image" then
     image(_r,0,0,width,height)
   else
-    local bgColor = toColor(_r,_g,_b,_a)
-    L5_env.bgColor = bgColor  -- Store normalized RGBA for buffer clearing
     local prevR, prevG, prevB, prevA = love.graphics.getColor()
-    love.graphics.setColor(unpack(bgColor))
+    love.graphics.setColor(unpack(toColor(_r,_g,_b,_a)))
     love.graphics.rectangle("fill", 0, 0, width, height)
     love.graphics.setColor(prevR, prevG, prevB, prevA)
     L5_env.clearscreen = true 
