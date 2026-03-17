@@ -5,9 +5,7 @@
   The keyboard function keyPressed() is called whenever a key is pressed. 
   keyPressed() is another keyboard function that is called when a key is released.
 
-  Adapted from Processing Examples website.
-  https://processing.org/examples/keyboardfunctions.html
-  by Martin Gomez
+  Adapted from Processing examples. Adapted to L5 2025. Licensed under CC BY-NC-SA 4.0.
 
   Original 'Color Typewriter' concept by John Maeda.
 ]] --

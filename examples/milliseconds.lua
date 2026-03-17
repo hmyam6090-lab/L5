@@ -6,8 +6,7 @@
   By modifying this number with the modulo(%) operator,
   different patterns in time are created.
 
-  Adapted from Processing Examples website.
-  https://processing.org/examples/milliseconds.html
+  Adapted from Processing examples. Adapted to L5 2025. Licensed under CC BY-NC-SA 4.0.
 ]] --
 require("L5")
 

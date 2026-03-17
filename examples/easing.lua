@@ -8,8 +8,7 @@
   1 pixel, the symbol moves part of the distance (0.05) from its
   current position toward the cursor.
 
-  Adapted from Processing Examples website.
-  https://processing.org/examples/easing.html
+  Adapted from Processing examples. Adapted to L5 2025. Licensed under CC BY-NC-SA 4.0.
 ]] --
 require("L5")
 

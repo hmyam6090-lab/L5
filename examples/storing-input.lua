@@ -7,8 +7,7 @@
   frame, the newest value are added to the end of each array
   and the oldest value is deleted
 
-  Adapted from Processing Examples website.
-  https://processing.org/examples/storinginput.html
+  Adapted from Processing examples. Adapted to L5 2025. Licensed under CC BY-NC-SA 4.0.
 ]] --
 require("L5")
 

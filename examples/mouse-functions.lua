@@ -3,8 +3,7 @@
 
   Click on the box and drag it across the screen.
 
-  Adapted from Processing Examples website.
-  https://processing.org/examples/mousefunctions.html
+  Adapted from Processing examples. Adapted to L5 2025. Licensed under CC BY-NC-SA 4.0.
 ]] --
 require("L5")
 
@@ -24,53 +23,54 @@ function setup()
     noStroke()
     rectMode(RADIUS)
 
-    bx = width / 2.0
-    by = height / 2.0
+    bx = width / 2
+    by = height / 2
     boxSize = 75
     overbox = false
     locked = false
-    xOffset = 0.0
-    yOffset = 0.0
+    xOffset = 0
+    yOffset = 0
 end
 
 function draw()
-    background(0)
+  background(0)
 
-    -- Test if the cursor is over the box 
-    if ((mouseX > bx - boxSize and mouseX < bx + boxSize) and (mouseY > by - boxSize and mouseY < by + boxSize)) then
-        overbox = true
-        if (not locked) then
-            stroke(255)
-            fill(153)
-        end
-
-    else
-        stroke(153)
-        fill(153)
-        overbox = false
+  -- Test if the cursor is over the box 
+  if ((mouseX > bx - boxSize and mouseX < bx + boxSize) and (mouseY > by - boxSize and mouseY < by + boxSize)) then
+    overbox = true
+    if (not locked) then
+      stroke(255)
+      fill(153)
     end
 
-    rect(bx, by, boxSize, boxSize)
+  else
+    stroke(153)
+    fill(153)
+    overbox = false
+  end
+
+  -- draw the box
+  rect(bx, by, boxSize, boxSize)
 end
 
 function mousePressed()
-    if (overbox) then
-        locked = true
-        fill(255, 255, 255)
-    else
-        locked = false
-    end
-    xOffset = mouseX - bx
-    yOffset = mouseY - by
+  if (overbox) then
+    locked = true
+    fill(255, 255, 255)
+  else
+    locked = false
+  end
+  xOffset = mouseX - bx
+  yOffset = mouseY - by
 end
 
 function mouseDragged()
-    if (locked) then
-        bx = mouseX - xOffset
-        by = mouseY - yOffset
-    end
+  if (locked) then
+    bx = mouseX - xOffset
+    by = mouseY - yOffset
+  end
 end
 
 function mouseReleased()
-    locked = false
+  locked = false
 end

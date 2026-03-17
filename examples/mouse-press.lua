@@ -4,8 +4,7 @@
   Move the mouse to position the shape.
   Press the mouse button to invert the color
 
-  Adapted from Processing Examples website.
-  https://processing.org/examples/mousepress.html
+  Adapted from Processing examples. Adapted to L5 2025. Licensed under CC BY-NC-SA 4.0.
 ]] --
 require("L5")
 
@@ -20,7 +19,7 @@ function setup()
 end
 
 function draw()
-    if (mouseIsPressed) then
+    if mouseIsPressed then
         stroke(255)
     else
         stroke(0)

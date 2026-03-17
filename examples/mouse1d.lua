@@ -5,8 +5,7 @@
   The "mouseX" variable is used to control both the
   size and color of the rectangles.
 
-  Adapted from Processing Examples website.
-  https://processing.org/examples/mouse1d.html
+  Adapted from Processing examples. Adapted to L5 2025. Licensed under CC BY-NC-SA 4.0.
 ]] --
 require("L5")
 

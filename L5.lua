@@ -144,9 +144,9 @@ function love.load()
 
   -- Clear both buffers initially
   love.graphics.setCanvas(L5_env.backBuffer) 
-  love.graphics.clear(unpack(L5_env.bgColor))
+  love.graphics.clear(0.5, 0.5, 0.5, 1) -- grey background
   love.graphics.setCanvas(L5_env.frontBuffer) 
-  love.graphics.clear(unpack(L5_env.bgColor))
+  love.graphics.clear(0.5, 0.5, 0.5, 1) -- grey background
   love.graphics.setCanvas()
 
   initShaderDefaults()
@@ -322,7 +322,6 @@ function love.textinput(_text)
   key = _text
   L5_env.typedKey = _text
   L5_env.keyWasTyped = true 
-  if textinput ~= nil then textinput(_text) end
 end
 
 function love.resize(w, h)
@@ -333,12 +332,12 @@ function love.resize(w, h)
   L5_env.backBuffer = love.graphics.newCanvas(w, h) 
   L5_env.frontBuffer = love.graphics.newCanvas(w, h ) 
   
-  -- Clear new buffers with current background color
+  -- Clear new buffers and apply scaling
   love.graphics.setCanvas(L5_env.backBuffer) 
-  love.graphics.clear(unpack(L5_env.bgColor))
+  love.graphics.clear(0.5, 0.5, 0.5, 1)
   
   love.graphics.setCanvas(L5_env.frontBuffer) 
-  love.graphics.clear(unpack(L5_env.bgColor))
+  love.graphics.clear(0.5, 0.5, 0.5, 1)
   
   love.graphics.setCanvas(L5_env.backBuffer)
   
@@ -424,11 +423,11 @@ function size(_w, _h)
   L5_env.backBuffer = love.graphics.newCanvas(_w, _h) 
   L5_env.frontBuffer = love.graphics.newCanvas(_w, _h) 
 
-  -- Clear new buffers with current background color
+  -- Clear new buffers
   love.graphics.setCanvas(L5_env.backBuffer) 
-  love.graphics.clear(unpack(L5_env.bgColor))
+  love.graphics.clear(0.5, 0.5, 0.5, 1)
   love.graphics.setCanvas(L5_env.frontBuffer) 
-  love.graphics.clear(unpack(L5_env.bgColor))
+  love.graphics.clear(0.5, 0.5, 0.5, 1)
 
   -- Set back to back buffer for continued drawing
   love.graphics.setCanvas(L5_env.backBuffer)
@@ -486,9 +485,9 @@ function fullscreen(display)
   L5_env.frontBuffer = love.graphics.newCanvas(w, h) 
   
   love.graphics.setCanvas(L5_env.backBuffer) 
-  love.graphics.clear(unpack(L5_env.bgColor))
+  love.graphics.clear(0.5, 0.5, 0.5, 1)
   love.graphics.setCanvas(L5_env.frontBuffer) 
-  love.graphics.clear(unpack(L5_env.bgColor))
+  love.graphics.clear(0.5, 0.5, 0.5, 1)
   
   love.graphics.setCanvas(L5_env.backBuffer)
   width, height = love.graphics.getDimensions()  
@@ -853,7 +852,7 @@ function define_env_globals()
   -- global color state 
   L5_env.fill_mode="fill"   --also: "line"
   L5_env.stroke_color = {0,0,0}
-  L5_env.bgColor = {0.5, 0.5, 1}
+
   L5_env.currentTint = {1, 1, 1, 1} -- Default: no tint white
   L5_env.color_max = {255,255,255,255}
   L5_env.color_mode = RGB --also: HSB, HSL
@@ -900,8 +899,6 @@ function define_env_globals()
   L5_env.useTexture = false
   L5_env.textureMode=IMAGE -- NORMAL or IMAGE
   L5_env.textureWrap=CLAMP -- wrap mode CLAMP or REPEAT
-  -- Background color tracking: {r, g, b, a} normalized 0-1
-  L5_env.bgColor = {0.5, 0.5, 0.5, 1}
   -- custom print output on screen
   L5_env.printBuffer = {}
   L5_env.defaultFont = love.graphics.getFont()
