@@ -1,16 +1,79 @@
 require("L5")
 
+local maxHeight = 40
+local minHeight = 20
+local letterHeight = maxHeight
+local letterWidth = 20
+
+local x = -letterWidth
+local y = 0
+
+local newletter = false
+
+local numChars = 26
+local colors = {}
+
 function setup()
-    size(400, 400)
+    size(640, 360)
+    windowTitle("Keyboard Functions")
+    describe("Press letter keys to create forms in time and space")
 
-    -- Set the program title
-    windowTitle("Basic sketch")
+    noStroke()
+    colorMode(HSB, numChars)
+    background(numChars / 2)
 
-    describe('Draws a yellow background')
+    -- Set a hue value for each key
+    for i = 0, numChars - 1 do
+        colors[i] = color(i, numChars, numChars)
+    end
 end
 
 function draw()
-    -- Fills the background with the color yellow
-    background(255, 215, 0)
+    if newletter == true then
+        -- Draw the "letter"
+        local y_pos
+        if letterHeight == maxHeight then
+            y_pos = y
+            rect(x, y_pos, letterWidth, letterHeight)
+        else
+            y_pos = y + minHeight
+            rect(x, y_pos, letterWidth, letterHeight)
+            fill(numChars / 2)
+            rect(x, y_pos - minHeight, letterWidth, letterHeight)
+        end
+        newletter = false
+    end
 end
 
+function textinput(text)    
+    local alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    
+    if string.match(key, "^[A-Z]$") then
+        keyIndex = string.find(alphabet, key) - 1
+        letterHeight = maxHeight
+        fill(colors[keyIndex])
+    elseif string.match(key, "^[a-z]$") then
+        keyIndex = string.find(alphabet, string.upper(key)) - 1
+        letterHeight = minHeight
+        fill(colors[keyIndex])
+    else
+        fill(0)
+        letterHeight = 10
+    end
+
+    newletter = true
+
+    -- Update the "letter" position
+    x = x + letterWidth
+
+    -- Wrap horizontally
+    if x > width - letterWidth then
+        x = 0
+        y = y + maxHeight
+    end
+
+    -- Wrap vertically
+    if y > height - letterHeight then
+        y = 0
+    end
+end

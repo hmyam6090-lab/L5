@@ -11,7 +11,6 @@
 ]] --
 require("L5")
 
--- Declare Variables
 local xvals
 local yvals
 local bvals
@@ -27,7 +26,6 @@ function setup()
     yvals = {}
     bvals = {}
 
-    -- Initialize tables with 0
     for i = 1, width do
         xvals[i] = 0
         yvals[i] = 0

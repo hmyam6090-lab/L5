@@ -12,7 +12,6 @@
 ]] --
 require("L5")
 
--- Declare Variables
 local num = 60
 local mx
 local my
@@ -27,7 +26,6 @@ function setup()
     mx = {}
     my = {}
 
-    -- Initialize tables with 0 
     for i = 0, num - 1 do
         mx[i] = 0
         my[i] = 0

@@ -10,7 +10,6 @@
 ]] --
 require("L5")
 
--- Declare Variables
 local cx, cy
 local secondsRadius
 local minutesRadius
@@ -24,7 +23,6 @@ function setup()
 
     stroke(255)
 
-    -- Initialize variables
     local radius = min(width, height) / 2
     secondsRadius = radius * 0.72
     minutesRadius = radius * 0.60
@@ -67,4 +65,3 @@ function draw()
         point(x, y)
     end
 end
-

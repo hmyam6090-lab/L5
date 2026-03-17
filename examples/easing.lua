@@ -13,7 +13,6 @@
 ]] --
 require("L5")
 
--- Declare Variables
 local x = 0
 local y = 0
 local easing = 0.05
@@ -23,7 +22,6 @@ function setup()
     windowTitle("Easing")
     describe(" Move the mouse across the screen and the symbol will follow.")
 
-    -- Draw Modes
     noStroke()
 end
 

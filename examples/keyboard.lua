@@ -15,16 +15,14 @@ function setup()
     windowTitle("Keyboard")
     describe("Press letter keys to create forms in time and space")
 
-    -- Draw Modes
     noStroke()
     background(0)
 
-    -- Declare Variables
     rectWidth = width / 4
 end
 
 function draw()
-    -- Keep draw() heer to continue looping while waiting for keys
+    -- Keep draw() here to continue looping while waiting for keys
 end
 
 function keyPressed()

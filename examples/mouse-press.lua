@@ -14,15 +14,12 @@ function setup()
     windowTitle("Mouse Press")
     describe("Move and press the mouse button to position the shape and invert the color")
 
-    -- Draw Modes
     noSmooth()
     fill(126)
     background(102)
 end
 
 function draw()
-    -- In processing mousePressed is both a function signature and global built-in variable 
-    -- In L5, this is differentiated into mousePressed(), the function and mouseIsPressed, the built-in variable
     if (mouseIsPressed) then
         stroke(255)
     else
